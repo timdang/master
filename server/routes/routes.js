@@ -7,7 +7,7 @@ const contacts = require('../controllers/contacts');
 const calendar = require('../controllers/calendar');
 const router = require('koa-router')();
 
-module.exports = function(app) {
+module.exports = function routes(app) {
   app.use(router.routes());
 
   // Job Search Routes
@@ -40,7 +40,7 @@ module.exports = function(app) {
       failureRedirect: '/',
     })
   );
-  router.get('/logout', function*() {
+  router.get('/logout', function () {
     this.session = null;
     this.redirect('/');
   });
@@ -54,13 +54,13 @@ module.exports = function(app) {
     }
   }
 
-  router.get('/dashboard', authed, function*(next) {
+  router.get('/dashboard', authed, function* (next) {
     yield next;
   });
-  router.get('/jobsearch', authed, function*(next) {
+  router.get('/jobsearch', authed, function* (next) {
     yield next;
   });
-  router.get('/addjob', authed, function*(next) {
+  router.get('/addjob', authed, function* (next) {
     yield next;
   });
 };

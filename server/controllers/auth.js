@@ -1,5 +1,3 @@
-'use strict';
-
 const passport = require('koa-passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const tokens = require('../config');

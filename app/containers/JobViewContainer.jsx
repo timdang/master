@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import JobData from '../components/jobview/JobData';
 import FlatButton from 'material-ui/FlatButton';
+import JobData from '../components/jobview/JobData';
 import { addNote, deleteNote, deleteJob, addEvent, addContact } from '../config/actions';
 
 class JobViewContainer extends Component {
@@ -86,7 +86,7 @@ class JobViewContainer extends Component {
   }
 
   formatDate(date) {
-    return (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+    return `${(date.getMonth() + 1)}/${date.getDate()}/${date.getFullYear()}`;
   }
 
   postReminder() {
@@ -149,8 +149,8 @@ class JobViewContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let jobID = undefined;
-  let dbUserID = undefined;
+  let jobID;
+  let dbUserID;
   if (state.get('app')) jobID = state.get('app').toJS().currentJob;
   if (state.get('app')) dbUserID = state.get('app').toJS().dbUserID;
   const jobs = state.get('jobs').toJS().filter(job => job.id === jobID);

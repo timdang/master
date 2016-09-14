@@ -1,11 +1,10 @@
-'use strict';
-
 const koa = require('koa');
 const path = require('path');
 const spa = require('koa-spa');
 const session = require('koa-session');
 const passport = require('./controllers/auth');
 const routes = require('./routes/routes');
+
 const app = koa();
 
 app.keys = ['secret'];
@@ -25,4 +24,3 @@ app.use(spa(path.join(__dirname, '../dist'), {
 
 const thePort = process.env.PORT || 3000;
 app.listen(thePort);
-console.log('server running on port' + thePort);

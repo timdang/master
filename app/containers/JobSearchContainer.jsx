@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import SearchBar from '../components/jobsearch/SearchBar';
-import ResultsViewComponent from '../components/jobsearch/ResultsView';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import SearchBar from '../components/jobsearch/SearchBar';
+import ResultsViewComponent from '../components/jobsearch/ResultsView';
 import { addJob, dbRequest, dbSuccess, dbFailure } from '../config/actions';
 
 class JobSearchContainer extends Component {
@@ -58,13 +58,13 @@ class JobSearchContainer extends Component {
   handleSearchSubmit(keyword, location) {
     this.setState({ data: [] });
     this.setState({ jobsSelected: {} });
-    let githubParams = '/api/jobs/github/' + keyword.replace(/ /g, '+');
+    let githubParams = `/api/jobs/github/${keyword.replace(/ /g, '+')}`;
     if (location.length) {
-      githubParams += '/' + location.replace(/ /g, '+');
+      githubParams += `/${location.replace(/ /g, '+')}`;
     }
-    let usajobsParams = '/api/jobs/usajobs/' + keyword.replace(/ /g, '+');
+    let usajobsParams = `/api/jobs/usajobs/${keyword.replace(/ /g, '+')}`;
     if (location.length) {
-      usajobsParams += '/' + location.replace(/ /g, '+');
+      usajobsParams += `/${location.replace(/ /g, '+')}`;
     }
 
     this.props.dispatch(dbRequest());

@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import JobsTableData from '../components/dashboard/JobsTableData';
-import EventsTableData from '../components/dashboard/EventsTableData';
 import axios from 'axios';
-import { initializeUser, setCurrentJob } from '../config/actions';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import JobsTableData from '../components/dashboard/JobsTableData';
+import EventsTableData from '../components/dashboard/EventsTableData';
+import { initializeUser, setCurrentJob } from '../config/actions';
 
 class DashboardContainer extends Component {
   constructor() {
@@ -88,7 +88,7 @@ class DashboardContainer extends Component {
             <ContentAdd />
           </FloatingActionButton>
           <span className="button-circle-text">Job Search</span>
-          &nbsp;&nbsp;
+          &nbsp; &nbsp;
           <FloatingActionButton
             mini
             className="button-circle"
@@ -107,9 +107,9 @@ class DashboardContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  let app = undefined;
-  let jobs = undefined;
-  let events = undefined;
+  let app;
+  let jobs;
+  let events;
   if (state.get('app')) app = state.get('app').toJS();
   if (state.get('jobs')) jobs = state.get('jobs').toJS();
   if (state.get('events')) events = state.get('events').toJS();

@@ -1,6 +1,7 @@
 const fs = require('fs');
+const path = require('path');
 
-const caCert = fs.readFileSync(__dirname + '/public-key.crt').toString().trim();
+const caCert = fs.readFileSync(path.join(__dirname, '/public-key.crt')).toString().trim();
 
 module.exports = {
   rethinkdb: {

@@ -1,6 +1,5 @@
-'use strict';
-
 const thinky = require('../thinkylocal');
+
 const type = thinky.type;
 
 const Job = thinky.createModel('Job', {
@@ -20,4 +19,5 @@ module.exports = Job;
 
 // User required here to avoid circular reference
 const User = require('./user');
+
 Job.belongsTo(User, 'user', 'idUser', 'id');

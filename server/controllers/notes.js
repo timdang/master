@@ -1,8 +1,7 @@
-'use strict';
 const Job = require('../../database/models/job');
 const parse = require('co-body');
 
-module.exports.addNote = function*() {
+module.exports.addNote = function* addNote() {
   const note = yield parse(this);
   try {
     const job = yield Job.get(note.jobID).run();
@@ -16,7 +15,7 @@ module.exports.addNote = function*() {
   }
 };
 
-module.exports.deleteNote = function*() {
+module.exports.deleteNote = function* deleteNote() {
   const jobID = this.params.id;
   const noteIndex = this.params.noteid;
   try {

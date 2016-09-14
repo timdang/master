@@ -1,39 +1,37 @@
-'use strict';
-
 const axios = require('axios');
 const Job = require('../../database/models/job');
 const User = require('../../database/models/user');
 const parse = require('co-body');
 const http = require('http');
 
-module.exports.list = function*() {
+module.exports.list = function* jobList() {
   let jobs = [];
   // format the querey and result from github
   if (this.params.source === 'github') {
-    let queryString = '?description=' + this.params.keywords;
+    let queryString = `?description=${this.params.keywords}`;
     if (this.params.city) {
-      queryString += '&location=' + this.params.city;
+      queryString += `&location=${this.params.city}`;
     }
-    const unformattedJobs = yield axios.get('https://jobs.github.com/positions.json' + queryString);
+    const unformattedJobs = yield axios.get(`https://jobs.github.com/positions.json${queryString}`);
     jobs = unformattedJobs.data;
   }
 
   // format the querey and result from usajobs
   if (this.params.source === 'usajobs') {
-    let queryString = '?Keyword=' + this.params.keywords;
+    let queryString = `?Keyword=${this.params.keywords}`;
     if (this.params.city) {
-      queryString += '&LocationName=' + this.params.city;
+      queryString += `&LocationName=${this.params.city}`;
     }
     const unformattedJobs =
       yield axios.request({
         method: 'get',
-        url: 'https://data.usajobs.gov/api/search' + queryString,
+        url: `https://data.usajobs.gov/api/search${queryString}`,
         headers: { 'Authorization-Key': process.env.authkey },
       }).catch((error) => console.log(error));
     // matching object keys with github's results
-    if (!!unformattedJobs.data.SearchResult.SearchResultItems) {
-      jobs = unformattedJobs.data.SearchResult.SearchResultItems.map((object) => {
-        return {
+    if (unformattedJobs.data.SearchResult.SearchResultItems) {
+      jobs = unformattedJobs.data.SearchResult.SearchResultItems.map((object) => (
+        {
           id: object.MatchedObjectDescriptor.PositionID,
           title: object.MatchedObjectDescriptor.PositionTitle,
           company: object.MatchedObjectDescriptor.OrganizationName,
@@ -41,15 +39,15 @@ module.exports.list = function*() {
           description: object.MatchedObjectDescriptor.QualificationSummary,
           location: object.MatchedObjectDescriptor.PositionLocation[0].LocationName,
           type: object.MatchedObjectDescriptor.PositionOfferingType[0].Name,
-        };
-      });
+        }
+      ));
     }
   }
   this.status = 200;
   this.body = jobs;
 };
 
-module.exports.addJob = function*() {
+module.exports.addJob = function* addJob() {
   this.type = 'application/json';
   try {
     const jobData = yield parse(this);
@@ -65,7 +63,7 @@ module.exports.addJob = function*() {
   }
 };
 
-module.exports.getJobs = function*() {
+module.exports.getJobs = function* getJobs() {
   const jobs = [];
   try {
     this.status = 200;
@@ -79,7 +77,7 @@ module.exports.getJobs = function*() {
   }
 };
 
-module.exports.deleteJob = function*() {
+module.exports.deleteJob = function* deleteJob() {
   try {
     const jobToDelete = this.params.id;
     yield Job.get(jobToDelete).delete().run();
@@ -93,7 +91,7 @@ module.exports.deleteJob = function*() {
   }
 };
 
-module.exports.updateJob = function*() {
+module.exports.updateJob = function* updateJob() {
   try {
     // Would have to send id of job wanted to edit in
     const dataToUpdate = yield parse(this);
